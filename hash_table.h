@@ -75,15 +75,6 @@ struct heap
 };
 
 
-uint (* const hash_functions[COUNT_HASH_FUNCS])(const char *key) =  {hash_crc32,
-                                                                    hash_stupid,
-                                                                    hash_first_word,
-                                                                    hash_ascii_sum,
-                                                                    hash_len_word,
-                                                                    hash_super_ded,
-                                                                    };
-
-
 int compare0(T *el1, T *el2);
 
 int compare1(T *el1, T *el2);
@@ -171,6 +162,14 @@ FILE * multiplot(const char *title, int x, int y);
 
 void plot(FILE *gnuplotPipe, const double *xvals, const double *yvals, int n, const char *title, const char *path, const char *special_com);
 
+uint (* const hash_functions[COUNT_HASH_FUNCS])(const char *key) =  {hash_crc32,
+                                                                    hash_stupid,
+                                                                    hash_first_word,
+                                                                    hash_ascii_sum,
+                                                                    hash_len_word,
+                                                                    hash_super_ded,
+                                                                    };
+                                                                    
 static const unsigned int crc32_table[] = {
   0x00000000, 0x04c11db7, 0x09823b6e, 0x0d4326d9,
   0x130476dc, 0x17c56b6b, 0x1a864db2, 0x1e475005,

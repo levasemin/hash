@@ -1,7 +1,7 @@
 #include "hash_table.h"
 
-const char *book  = "book.txt";
-const char *eng_words = "eng_words.txt"; 
+const char *book  = "/home/levce/projectsDED/hash/source/book.txt";
+const char *eng_words = "/home/levce/projectsDED/hash/source/eng_words.txt"; 
 
 int main()
 {
@@ -20,5 +20,6 @@ int main()
 
     run_test(hash_table, buffer, 2);
 
+    
     return 0;
 }
