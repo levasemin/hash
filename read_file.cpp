@@ -1,5 +1,13 @@
 #include "hash_table.h"
 
+inline void memcpy_intr(char *str1, const char *str2, int n)
+{
+    __m256 *str1_256 = (__m256 *)str1;
+    __m256 *str2_256 = (__m256 *)str2;
+
+    *str1_256 = *str2_256;
+}
+
 size_t get_file_size(FILE *file)
 {
     assert(file != nullptr);
@@ -30,23 +38,32 @@ char *read_file(const char *file_name, const char *flag)
     return string;
 }
 
-void fill_hash_table(struct hash_table *hash_table, char *string)
+
+struct buffer *make_buffer(char *string, size_t buffer_size, size_t max_len)
 {
+    struct buffer *buffer = (struct buffer *)calloc(1, sizeof(struct buffer));
+
+    char *text = (char *)aligned_alloc(32, buffer_size * max_len);
+
+    memset(text, 0, buffer_size * max_len);
+    
+    buffer->buffer = (char **)calloc(buffer_size, sizeof(char *));
+    
+    buffer->max_len = max_len;
+
     size_t n = strlen((const char *)string);
 
-    for (size_t i = 0; i < n; i++)
+    for (size_t i = 0; i < n && buffer->count < buffer_size; i++)
     {
-        char word[MAX_LEN] = "";
-
-        int count = 0;
+        int index = 0;
         
-        for (i; i < n && count < MAX_LEN; i++, count++)
-        {
-            char letter = tolower(string[i]);
-            
-            if (letter >= 97 && letter <= 122)
+        buffer->buffer[buffer->count] = text + buffer->count * MAX_LEN;
+
+        for (; i < n && index < MAX_LEN; i++, index++)
+        {            
+            if ((string[i] >= 97 && string[i] <= 122) || (string[i] >= 65 && string[i] <= 90))
             {
-                word[count] = letter;
+                buffer->buffer[buffer->count][index] = string[i];
             }
 
             else
@@ -54,21 +71,23 @@ void fill_hash_table(struct hash_table *hash_table, char *string)
                 break;
             }
         }
-        
-        word[count] = '\0';
 
-        //printf("%f\n", ((float)i / 6293689 * 100));
-        //fflush(stdout);
+        buffer->buffer[buffer->count][index] = '\0';
         
-        if (strncmp(word, "wob", MAX_LEN) == 0)
+        if (index > 2)
         {
-            printf("!%ld!\n", i);
-            printf("YAH\n");
+            buffer->count ++;
         }
-        if (count > 2)
-        {
-            hash_table_insert(hash_table, word);
-        }
+    }
+
+    return buffer;
+}
+
+void fill_hash_table(struct hash_table *hash_table, struct buffer *buffer)
+{
+    for (size_t i = 0; i < buffer->count; i++)
+    {
+        hash_table_insert(hash_table, buffer->buffer[i]);
     }
 
     return;

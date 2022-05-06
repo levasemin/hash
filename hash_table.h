@@ -1,24 +1,40 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <math.h>
 #include <string.h>
 #include <assert.h>
 #include <ctype.h>
+#include <ctime>
+#include <immintrin.h>
 
 #define __func_name__(func) #func
 
-const int MAX_LEN = 20;
+typedef size_t T;
 
-const int ALLOCATED = 1009;
+#define strcmp strcmp_intr
+#define memcpy memcpy_intr
+
+const int MAX_LEN = 32;
+
+const int BUFFER_SIZE = 10000000;
+
+const int ALLOCATED   = 1000003;
 
 const int LEN_PATH = 300;
+
+const int COUNT_HASH_FUNCS = 6;
+
+const double PERCENT_OUTLIER = 0.01;
+
+typedef char word[MAX_LEN];
 
 struct hash_table
 {
     size_t allocated;
     size_t count;
 
-    long long (*hash_func)(const char *key);
+    uint (*hash_func)(const char *key);
     
     struct lists *lists;
 };
@@ -32,29 +48,77 @@ struct lists
 
 struct list
 {    
-    char elem[MAX_LEN]; 
+    char *elem; 
     
-    int state = 0;
-
     struct list *next_list;
 
     struct list *previous_list;
 };
 
+struct buffer
+{
+    size_t allocated;
+    size_t count;
+    size_t max_len;
 
-long long hash_stupid(const char *key);
+    char **buffer;
+};
 
-long long hash_first_word(const char *key);
+struct heap
+{
+    T *body;
 
-long long hash_sum_word(const char *key);
+    size_t allocated;
+    size_t nodes;
 
-long long hash_len_word(const char *key);
-
-long long hash_super_ded32(const char *key);
-
-long long hash_crc32(const char *key);
+    int(* comp)(T *, T *);
+};
 
 
+uint (* const hash_functions[COUNT_HASH_FUNCS])(const char *key) =  {hash_crc32,
+                                                                    hash_stupid,
+                                                                    hash_first_word,
+                                                                    hash_ascii_sum,
+                                                                    hash_len_word,
+                                                                    hash_super_ded,
+                                                                    };
+
+
+int compare0(T *el1, T *el2);
+
+int compare1(T *el1, T *el2);
+
+heap *heap_create(size_t count, int type);
+
+void heap_add(heap *cur_heap, T *elem);
+
+void heap_head_delete(heap *cur_heap);
+
+heap* merge(heap *cur_heap1, heap *cur_heap2);
+
+void heap_delete(heap *cur_heap);
+
+uint hash_stupid(const char *key);
+
+uint hash_first_word(const char *key);
+
+uint hash_ascii_sum(const char *key);
+
+extern "C" u_int32_t hash_ascii_sum_asm(char *key);
+
+uint hash_len_word(const char *key);
+
+uint hash_super_ded(const char *key);
+
+uint hash_super_ded_asm(const char *key);
+
+uint hash_crc32(const char *key);
+
+uint hash_crc32_intr(const char *key);
+
+int strcmp_intr(const char *string1, const char *string2);
+
+void memcpy_intr(char *str1, const char *str2, int n);
 
 struct list *list_new(const char *elem);
 
@@ -75,7 +139,7 @@ struct list *list_next(struct list *curr);
 void list_print(struct list const *head);
 
 
-struct hash_table *hash_table_create (long long hash_func (const char *key), size_t allocated_size);
+struct hash_table *hash_table_create (uint hash_func (const char *key), size_t allocated_size);
 
 void hash_table_insert (struct hash_table *hash_table, const char *key);
 
@@ -92,13 +156,22 @@ size_t get_file_size(FILE *file);
 
 char *read_file(const char *file_name, const char *flag);
 
-void fill_hash_table(struct hash_table *hash_table, char *string);
+struct buffer *make_buffer(char *string, size_t buffer_size, size_t max_len);
 
-void plot(const double *xvals, const double *yvals, int n, char *title, char *path, char *special_com);
+void fill_hash_table(struct hash_table *hash_table, struct buffer *buffer);
+
+extern __inline__ uint64_t rdtsc();
+
+void run_test(hash_table *hash_table, struct buffer *buffer, int epoch);
 
 
-static const unsigned int crc32_table[] =
-{
+void create_graph(FILE *gnuplotPipe, hash_table *hash_table, double percent_outlier, const char *title, const char *path);
+
+FILE * multiplot(const char *title, int x, int y);
+
+void plot(FILE *gnuplotPipe, const double *xvals, const double *yvals, int n, const char *title, const char *path, const char *special_com);
+
+static const unsigned int crc32_table[] = {
   0x00000000, 0x04c11db7, 0x09823b6e, 0x0d4326d9,
   0x130476dc, 0x17c56b6b, 0x1a864db2, 0x1e475005,
   0x2608edb8, 0x22c9f00f, 0x2f8ad6d6, 0x2b4bcb61,

@@ -1,9 +1,8 @@
 #include "hash_table.h"
 
-
-struct hash_table *hash_table_create (long long hash_func (const char *key), size_t allocated)
+struct hash_table *hash_table_create (uint hash_func (const char *key), size_t allocated)
 {
-    struct hash_table *hash_table = (struct hash_table *) calloc(1, sizeof(struct hash_table));
+    struct hash_table *hash_table = (struct hash_table *)calloc(1, sizeof(struct hash_table));
     
     hash_table->lists = (struct lists *)calloc(allocated, sizeof(struct lists));
     
@@ -16,15 +15,13 @@ struct hash_table *hash_table_create (long long hash_func (const char *key), siz
 
 void hash_table_insert (struct hash_table *hash_table, const char *key)
 {
-    long long hash = hash_table->hash_func(key) % hash_table->allocated;
+    uint hash = hash_table->hash_func(key) % hash_table->allocated;
 
-    struct lists *lists = &hash_table->lists[hash];
+    struct lists *lists = hash_table->lists + hash;
 
     if (lists->count == 0)
     {
-        lists->head = (struct list *)calloc(1, sizeof(struct list));
-        
-        memcpy(lists->head->elem, key, MAX_LEN);
+        lists->head = list_new(key); 
 
         lists->count = 1;
 
@@ -33,31 +30,17 @@ void hash_table_insert (struct hash_table *hash_table, const char *key)
 
     else 
     {
-        struct list *current_list = lists->head;
-
-        while (current_list->next_list != NULL && (strcmp(current_list->elem, key) != 0))
-        {
-            current_list = current_list->next_list;
-        }
-        
-        if (strcmp(current_list->elem, key) == 0)
-        {
-            return;
-        }
-
-        struct list *new_list = list_new(key);
-        
-        list_insert_after(lists->head, current_list, new_list);
+        lists->head = list_insert(lists->head, key);
 
         lists->count ++;
-
+    
         hash_table->count ++;
     }
 }
 
 void hash_table_erase (struct hash_table *hash_table, const char *key)
 {
-    long long hash    = hash_table->hash_func(key) % hash_table->allocated;
+    uint hash = hash_table->hash_func(key) % hash_table->allocated;
 
     struct lists *lists = &hash_table->lists[hash];
 
@@ -72,10 +55,10 @@ void hash_table_erase (struct hash_table *hash_table, const char *key)
 
 struct list *hash_table_find (struct hash_table *hash_table, const char *key)
 {
-    long long hash    = hash_table->hash_func(key) % hash_table->allocated;
+    uint hash    = hash_table->hash_func(key) % hash_table->allocated;
 
     struct lists *lists = &hash_table->lists[hash];
-
+    
     struct list *res_list = list_find(lists->head, key);
 
     return res_list;
@@ -83,16 +66,21 @@ struct list *hash_table_find (struct hash_table *hash_table, const char *key)
 
 struct lists *hash_table_get_lists(struct hash_table *hash_table, const char *key)
 {
-    long long hash = hash_table->hash_func(key) % hash_table->allocated;
+    uint hash = hash_table->hash_func(key) % hash_table->allocated;
 
     return &hash_table->lists[hash];
 }
 
 void hash_table_destroy(struct hash_table *hash_table)
 {
-    for (size_t i = 0; i < hash_table->allocated; i++)
+    if (hash_table == NULL)
     {
-        list_delete(hash_table[i].lists->head);
+        return ;
+    }
+
+    for (int i = 0; i < hash_table->allocated; i++)
+    {
+        list_delete(hash_table->lists[i].head);
     }
 
     free(hash_table->lists);
