@@ -56,7 +56,6 @@ struct list *list_insert(struct list *head, const char *elem)
 
 struct list *list_find(struct list *head, const char *elem)
 {
-    head == NULL;
     if (head == NULL)
     {
         return NULL;
@@ -226,6 +225,7 @@ void list_print(struct list const *head)
     {
         printf("[]\n");
     }
+    
     else 
     {
         printf("[");

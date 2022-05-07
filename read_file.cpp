@@ -39,7 +39,7 @@ char *read_file(const char *file_name, const char *flag)
 }
 
 
-struct buffer *make_buffer(char *string, size_t buffer_size, size_t max_len)
+struct buffer *buffer_make(char *string, size_t buffer_size, size_t max_len)
 {
     struct buffer *buffer = (struct buffer *)calloc(1, sizeof(struct buffer));
 
@@ -81,6 +81,12 @@ struct buffer *make_buffer(char *string, size_t buffer_size, size_t max_len)
     }
 
     return buffer;
+}
+
+void buffer_destroy(struct buffer *buffer)
+{
+    free(buffer->buffer[0]);
+    free(buffer);
 }
 
 void fill_hash_table(struct hash_table *hash_table, struct buffer *buffer)

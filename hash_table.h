@@ -12,14 +12,14 @@
 
 typedef size_t T;
 
-#define strcmp strcmp_intr
-#define memcpy memcpy_intr
+//#define strcmp strcmp_intr
+//#define memcpy memcpy_intr
 
 const int MAX_LEN = 32;
 
 const int BUFFER_SIZE = 10000000;
 
-const int ALLOCATED   = 1000003;
+const int ALLOCATED   = 100003;
 
 const int LEN_PATH = 300;
 
@@ -147,14 +147,17 @@ size_t get_file_size(FILE *file);
 
 char *read_file(const char *file_name, const char *flag);
 
-struct buffer *make_buffer(char *string, size_t buffer_size, size_t max_len);
+
+struct buffer *buffer_make(char *string, size_t buffer_size, size_t max_len);
+
+void buffer_destroy(struct buffer *buffer);
+
 
 void fill_hash_table(struct hash_table *hash_table, struct buffer *buffer);
 
 extern __inline__ uint64_t rdtsc();
 
 void run_test(hash_table *hash_table, struct buffer *buffer, int epoch);
-
 
 void create_graph(FILE *gnuplotPipe, hash_table *hash_table, double percent_outlier, const char *title, const char *path);
 
@@ -169,7 +172,7 @@ uint (* const hash_functions[COUNT_HASH_FUNCS])(const char *key) =  {hash_crc32,
                                                                     hash_len_word,
                                                                     hash_super_ded,
                                                                     };
-                                                                    
+
 static const unsigned int crc32_table[] = {
   0x00000000, 0x04c11db7, 0x09823b6e, 0x0d4326d9,
   0x130476dc, 0x17c56b6b, 0x1a864db2, 0x1e475005,

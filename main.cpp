@@ -9,17 +9,22 @@ int main()
     
     struct hash_table *hash_table = hash_table_create(hash_crc32,  ALLOCATED);
     
-    struct buffer *buffer = make_buffer(string, BUFFER_SIZE, MAX_LEN);
-    
+    struct buffer *buffer = buffer_make(string, BUFFER_SIZE, MAX_LEN);
+
     fill_hash_table(hash_table, buffer);
     
 
     char *words = read_file(eng_words, "r");
 
-    struct buffer *buffer_test = make_buffer(words, BUFFER_SIZE, MAX_LEN);
+    struct buffer *buffer_test = buffer_make(words, BUFFER_SIZE, MAX_LEN);
 
-    run_test(hash_table, buffer, 2);
+    run_test(hash_table, buffer, 100);
 
-    
+    free(string);
+
+    buffer_destroy(buffer);
+
+    hash_table_destroy(hash_table);
+
     return 0;
 }
