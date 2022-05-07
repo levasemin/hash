@@ -24,7 +24,8 @@
   
   Заменена функция `uint hash_crc32(const char *key)` на `uint hash_crc32_intr(const char *key)`, использующая intrinsic функцию `unsigned __int64 _mm_crc32_u64 (unsigned __int64 crc, unsigned __int64 v)`. Посмотрим, как на это отреагирует профайлер и насколько ускорится программа.
 
-`uint hash_crc32_intr(const char *key)
+`
+uint hash_crc32_intr(const char *key)
 {    
     long long *array = (long long *)key;
 
@@ -41,7 +42,8 @@
     }
 
     return res;
-}`
+}
+`
 
 ![](https://github.com/levasemin/hash/blob/master/images/stage_2.png)
 
@@ -52,7 +54,8 @@
 ##### 3 этап
 Заменена функция `extern int strcmp (const char *__s1, const char *__s2)` на `int strcmp_intr(const char *string1, const char *string2)`, использующая intrinsic функции 
 
-`int strcmp_intr(const char *str1, const char *str2)
+`
+int strcmp_intr(const char *str1, const char *str2)
 {
     __m256 arr1 = _mm256_load_ps((float *)str1);
     __m256 arr2 = _mm256_load_ps((float *)str2);
@@ -62,5 +65,6 @@
     int res = _mm256_movemask_ps(cmp_res);
 
     return res;
-}`
+}
+`
 
