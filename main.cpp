@@ -7,7 +7,7 @@ int main()
 {
     char *string = read_file(book, "r");
     
-    struct hash_table *hash_table = hash_table_create(hash_crc32,  ALLOCATED);
+    struct hash_table *hash_table = hash_table_create(hash_crc32_intr,  ALLOCATED);
     
     struct buffer *buffer = buffer_make(string, BUFFER_SIZE, MAX_LEN);
 
