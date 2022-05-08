@@ -67,4 +67,6 @@ int strcmp_intr(const char *str1, const char *str2)
     return res;
 }
 ```
+![](https://github.com/levasemin/hash/blob/master/images/stage_3.png)
 
+Скорость составила 5073327920 тиков, что быстрее на 9.42 %
