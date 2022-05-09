@@ -98,7 +98,7 @@ uint hash_ascii_sum(const char *key);
 
 
 
-extern "C" u_int32_t hash_ascii_sum_asm(char *key);
+extern "C" u_int32_t hash_ascii_sum_asm(const char *key);
 
 uint hash_len_word(const char *key);
 

@@ -9,18 +9,19 @@ uint (*hash_functions[])(const char *key) =  {
                                             hash_ascii_sum,
                                             hash_len_word,
                                             hash_rolling,
-                                            hash_crc32
+                                            hash_crc32,
+                                            hash_ascii_sum_asm
                                             };
 
-char hash_functions_names[COUNT_HASH_FUNCS][MAX_LEN] = {
+char hash_functions_names[][MAX_LEN] = {
                                 "HashOnlyOne",
                                 "HashFirstWord",
                                 "HashAsciiSum",
                                 "HashLenWord",
                                 "HashRolling",                                    
-                                "HashCrc32"
+                                "HashCrc32",
+                                "HashAsciiSumAsm"
                                 };
-                                
 int main()
 {
     char *string = read_file(book, "r");
@@ -31,15 +32,18 @@ int main()
 
     struct buffer *buffer_test = buffer_make(words, BUFFER_SIZE, MAX_LEN);
 
+    hash_functions[0] = hash_ascii_sum_asm;
 
     char **names_funcs = (char **)calloc(COUNT_HASH_FUNCS, sizeof(char *));
 
-    for (int i = 0; i < COUNT_HASH_FUNCS; i++)
+    for (int i = 0; i < COUNT_HASH_FUNCS + 1; i++)
     {
         names_funcs[i] = (char *)(hash_functions_names + i);
-    }
+    }    
 
-    test_functions(buffer, hash_functions, names_funcs, COUNT_HASH_FUNCS, buffer_test, 10, "graphes/", 1920, 1080);
+    test_functions(buffer, hash_functions + 2, names_funcs + 2, 1, buffer_test, 100);
+    
+    //test_functions(buffer, hash_functions, names_funcs, COUNT_HASH_FUNCS, buffer_test, 10, "graphes/", 1920, 1080);
 
     free(string);
 
