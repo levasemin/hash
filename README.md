@@ -15,7 +15,7 @@
 
 ### Посмотрим на скорость 
 
-![](https://github.com/levasemin/hash/blob/master/images/graphics/speed.png)
+![](https://github.com/levasemin/hash/blob/master/images/speed/speed.png)
 
 ### Only one
 Функция хеширования `uint hash_only_one(const char *key)`.
@@ -184,7 +184,9 @@ int strcmp_intr(const char *str1, const char *str2)
 ### Альтернативные способы оптимизации
 Попробуем использовать силу ассемблера, предполагая, что всё на нём будет летать со скоростью света.
 
-Напишем функцию ascii sum на ассемблере, будет ли с ней работать быстрее?
+Напишем функцию ascii sum на ассемблере и прогоним два варианта на 100 повторениях будет ли с ней работать быстрее?
+
+
 
 '''
 global hash_ascii_sum_asm
