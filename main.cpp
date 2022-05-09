@@ -10,7 +10,8 @@ uint (*hash_functions[])(const char *key) =  {
                                             hash_len_word,
                                             hash_rolling,
                                             hash_crc32,
-                                            hash_ascii_sum_asm
+                                            hash_ascii_sum_asm,
+                                            hash_rolling_asm
                                             };
 
 char hash_functions_names[][MAX_LEN] = {
@@ -20,7 +21,8 @@ char hash_functions_names[][MAX_LEN] = {
                                 "HashLenWord",
                                 "HashRolling",                                    
                                 "HashCrc32",
-                                "HashAsciiSumAsm"
+                                "HashAsciiSumAsm",
+                                "HashRollingAsm"
                                 };
 int main()
 {
@@ -34,9 +36,9 @@ int main()
 
     hash_functions[0] = hash_ascii_sum_asm;
 
-    char **names_funcs = (char **)calloc(COUNT_HASH_FUNCS, sizeof(char *));
+    char **names_funcs = (char **)calloc(COUNT_HASH_FUNCS + 2, sizeof(char *));
 
-    for (int i = 0; i < COUNT_HASH_FUNCS + 1; i++)
+    for (int i = 0; i < COUNT_HASH_FUNCS + 2; i++)
     {
         names_funcs[i] = (char *)(hash_functions_names + i);
     }    

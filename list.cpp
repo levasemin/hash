@@ -40,7 +40,7 @@ struct list *list_insert(struct list *head, const char *elem)
         {
             current_list = current_list->next_list;
 
-            if (strcmp_intr(current_list->elem, elem) == 0)
+            if (strcmp(current_list->elem, elem) == 0)
             {
                 return head;
             } 
@@ -61,12 +61,12 @@ struct list *list_find(struct list *head, const char *elem)
         return NULL;
     }
 
-    while ((head->next_list != NULL) && (strcmp_intr(head->elem, elem) != 0))
+    while ((head->next_list != NULL) && (strcmp(head->elem, elem) != 0))
     {
         head = head->next_list;
     }
     
-    if (strcmp_intr(head->elem, elem) == 0)
+    if (strcmp(head->elem, elem) == 0)
     {
         return head;
     }
@@ -81,7 +81,7 @@ struct list *list_erase(struct list *head, const char *elem, int *was)
 
     }
     
-    else if (strcmp_intr(head->elem, elem) == 0)
+    else if (strcmp(head->elem, elem) == 0)
     {
         struct list *old_head = head;
 
@@ -105,7 +105,7 @@ struct list *list_erase(struct list *head, const char *elem, int *was)
         {
             current_list = current_list->next_list; 
             
-            if (strcmp_intr(current_list->elem, elem) == 0)
+            if (strcmp(current_list->elem, elem) == 0)
             {
                 current_list->previous_list->next_list = current_list->next_list;
                 
