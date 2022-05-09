@@ -47,7 +47,7 @@ uint hash_first_word(const char *key)
 Функция хеширования `uint hash_len_word(const char *key)`. 
 Возвращает: длина слова.
 
-![](https://github.com/levasemin/hash/blob/master/images/graphics/hash_len.png)
+![](https://github.com/levasemin/hash/blob/master/images/graphics/len_word.png)
 
 ```
 uint hash_len_word(const char *key)
