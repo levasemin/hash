@@ -75,7 +75,7 @@ int strcmp_intr(const char *str1, const char *str2)
 Все графики отображают коллизию выбранной функции на основе данных из 7 томов, для лучшей оценки 1% самых больших значений обрезается до максимума из оставшихся 99%.
 
 ### Only one
-Функция хеширования `uint hash_only_one(const char *key)` \n
+Функция хеширования `uint hash_only_one(const char *key)`.
 Возвращает: 1.
 
 ![](https://github.com/levasemin/hash/blob/master/images/graphics/only_one.png)
@@ -88,7 +88,7 @@ uint hash_only_one(const char *key)
 ```
 
 ### First word
-Функция хеширования `uint hash_first_word(const char *key)` 
+Функция хеширования `uint hash_first_word(const char *key)`.
 Возвращает: ASCII код первой буквы слова.
 
 ![](https://github.com/levasemin/hash/blob/master/images/graphics/first_word.png)
