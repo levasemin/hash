@@ -198,7 +198,7 @@ int strcmp_intr(const char *str1, const char *str2)
 ```
 ![](https://github.com/levasemin/hash/blob/master/images/stage_3.png)
 
-Скорость составила 1162 млн тиков, что быстрее на 9.5 %
+Скорость составила 858 млн тиков, что быстрее на 10.5 %
 
 ### Альтернативные способы оптимизации
 
