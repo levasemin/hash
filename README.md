@@ -234,6 +234,7 @@ ret
 Попробуем другой вариант использования ассемблера - вставка в код, изменим функцию `uint hash_rolling(const char *key)` на `uint hash_rolling_asm(const char *key)`.
 
 Результат функции на С
+
 ![](https://github.com/levasemin/hash/blob/master/images/speed/speed_hash_rolling.png)
 
 Результат функции с ассемблером
