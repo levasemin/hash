@@ -119,6 +119,8 @@ uint hash_crc32(const char *key)
 
  Итак, лучше всего для нашей хеш таблицы из выбранных функций подходит crc32.
  
+ ## Оптимизация 
+ 
  ##### 1 этап
  Попробуем запустить профайлер на тесте неоптимизированной таблицы, используя хеш crc32.
 
@@ -179,3 +181,38 @@ int strcmp_intr(const char *str1, const char *str2)
 ![](https://github.com/levasemin/hash/blob/master/images/stage_3.png)
 
 Скорость составила 5073327920 тиков, что быстрее на 9.42 %
+### Альтернативные способы оптимизации
+Попробуем использовать силу ассемблера, предполагая, что всё на нём будет летать со скоростью света.
+
+Напишем функцию ascii sum на ассемблере, будет ли с ней работать быстрее?
+
+'''
+global hash_ascii_sum_asm
+
+hash_ascii_sum_asm:
+
+push rbx 
+push rdi
+
+xor eax, eax
+xor ebx, ebx
+
+next_symbol:
+
+mov bl, [rdi]
+
+cmp bl, 0
+je out
+
+add eax, ebx
+
+inc rdi
+
+jmp next_symbol
+out:
+
+pop rdi
+pop rbx
+
+ret
+'''
