@@ -71,12 +71,12 @@ int strcmp_intr(const char *str1, const char *str2)
 
 Скорость составила 5073327920 тиков, что быстрее на 9.42 %
 
-##Посмотрим на графики функций для хеширования
+## Посмотрим на графики функций для хеширования
 ### Only one
 Функция хеширования `uint hash_only_one(const char *key)`
 Возвращает: 1.
 
-![]()
+![](https://github.com/levasemin/hash/blob/master/images/graphics/only_one.png)
 
 ```
 uint hash_only_one(const char *key)
@@ -89,7 +89,7 @@ uint hash_only_one(const char *key)
 Функция хеширования `uint hash_first_word(const char *key)` 
 Возвращает: ASCII код первой буквы слова.
 
-![]()
+![](https://github.com/levasemin/hash/blob/master/images/graphics/first_word.png)
 
 ```
 uint hash_first_word(const char *key)
@@ -102,7 +102,7 @@ uint hash_first_word(const char *key)
 Функция хеширования `uint hash_len_word(const char *key)`
 Возвращает: длина слова.
 
-![]()
+![](https://github.com/levasemin/hash/blob/master/images/graphics/hash_len.png)
 
 ```
 uint hash_len_word(const char *key)
@@ -115,7 +115,7 @@ uint hash_len_word(const char *key)
 Функция хеширования `uint hash_ascii_sum(const char *key)`
 Возвращает: сумму ASCII кодов букв слова
 
-![]()
+![](https://github.com/levasemin/hash/blob/master/images/graphics/ascii_sum.png)
 
 ```
 uint hash_ascii_sum(const char *key)
@@ -132,7 +132,7 @@ uint hash_ascii_sum(const char *key)
 Функция хеширования `uint hash_rolling(const char *key)`
 Возвращает: значение по формуле.
 
-![]()
+![](https://github.com/levasemin/hash/blob/master/images/graphics/rolling.png)
 
 ```
 uint hash_rolling(const char *key)
@@ -152,7 +152,7 @@ uint hash_rolling(const char *key)
 Функция хеширования  `uint hash_crc32(const char *key)`
 Возвращает: значение по формуле.
 
-![]()
+![](https://github.com/levasemin/hash/blob/master/images/graphics/crc32.png)
 
 ```
 uint hash_crc32(const char *key)
