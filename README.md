@@ -181,14 +181,15 @@ int strcmp_intr(const char *str1, const char *str2)
 ![](https://github.com/levasemin/hash/blob/master/images/stage_3.png)
 
 Скорость составила 5073327920 тиков, что быстрее на 9.42 %
+
 ### Альтернативные способы оптимизации
+
+## Функция на ассемблере 
 Попробуем использовать силу ассемблера, предполагая, что всё на нём будет летать со скоростью света.
 
-Напишем функцию ascii sum на ассемблере и прогоним два варианта на 100 повторениях будет ли с ней работать быстрее?
+Напишем функцию `uint hash_ascii_sum(const char *key)` на ассемблере `u_int32_t hash_ascii_sum_asm(const char *key)` и прогоним два варианта на 100 повторениях будет ли с ней работать быстрее?
 
-
-
-'''
+```
 global hash_ascii_sum_asm
 
 hash_ascii_sum_asm:
@@ -217,4 +218,30 @@ pop rdi
 pop rbx
 
 ret
-'''
+```
+
+Результат функции на С 
+
+![](https://github.com/levasemin/hash/blob/master/images/speed/speed_ascii_sum_o3.png)
+
+Результат функции на ассемблере
+
+![](https://github.com/levasemin/hash/blob/master/images/speed/speed_ascii_sum_asm_o3.png)
+
+Как видим, разницы нет, сложно написать код на ассемблере, который утрет нос оптимизации О3
+
+### Inline ассемблер
+Попробуем другой вариант использования ассемблера - вставка в код, изменим функцию `uint hash_rolling(const char *key)` на `uint hash_rolling_asm(const char *key)`.
+
+Результат функции на С
+
+![](https://github.com/levasemin/hash/blob/master/images/speed/speed_hash_rolling.png)
+
+Результат функции с ассемблером
+
+![](https://github.com/levasemin/hash/blob/master/images/speed/speed_hash_rolling_asm.png)
+
+Разницы особой нет, 3%, что в районе погрешности.
+
+### Итог
+Из оптимизаций на уровне логики- подбор хеш функции. тк от её коллизии напрямую зависит скорость работы хеш таблицы. С помощью оптимизаций на програмном уровне мы смогли на уровне оптимизации О3 с лучшей хеш функцией усокрить работу на 34.03%. 
