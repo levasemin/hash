@@ -36,9 +36,9 @@ int main()
 
     hash_functions[0] = hash_ascii_sum_asm;
 
-    char **names_funcs = (char **)calloc(COUNT_HASH_FUNCS + 2, sizeof(char *));
+    char **names_funcs = (char **)calloc(COUNT_TYPE_HASH_FUNCS, sizeof(char *));
 
-    for (int i = 0; i < COUNT_HASH_FUNCS; i++)
+    for (int i = 0; i < COUNT_TYPE_HASH_FUNCS; i++)
     {
         names_funcs[i] = (char *)(hash_functions_names + i);
     }    
