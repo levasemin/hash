@@ -21,7 +21,7 @@ const int ALLOCATED   = 100003;
 const int LEN_PATH = 300;
 
 const int COUNT_TYPE_HASH_FUNCS = 6;
-const int COUNT_HASH_FUNCS = 8;
+const int COUNT_HASH_FUNCS = 9;
 
 const double PERCENT_OUTLIER = 0.01;
 

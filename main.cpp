@@ -10,6 +10,7 @@ uint (*hash_functions[COUNT_HASH_FUNCS])(const char *key) =  {
                                             hash_len_word,
                                             hash_rolling,
                                             hash_crc32,
+                                            hash_crc32_intr,
                                             hash_ascii_sum_asm,
                                             hash_rolling_asm
                                             };
@@ -21,6 +22,7 @@ char hash_functions_names[COUNT_HASH_FUNCS][MAX_LEN] = {
                                 "HashLenWord",
                                 "HashRolling",                                    
                                 "HashCrc32",
+                                "HashCrc32Intr",
                                 "HashAsciiSumAsm",
                                 "HashRollingAsm"
                                 };
@@ -34,16 +36,16 @@ int main()
 
     struct buffer *buffer_test = buffer_make(words, BUFFER_SIZE, MAX_LEN);
 
-    char **names_funcs = (char **)calloc(COUNT_TYPE_HASH_FUNCS, sizeof(char *));
+    char **names_funcs = (char **)calloc(COUNT_HASH_FUNCS, sizeof(char *));
 
-    for (int i = 0; i < COUNT_TYPE_HASH_FUNCS; i++)
+    for (int i = 0; i < COUNT_HASH_FUNCS; i++)
     {
         names_funcs[i] = (char *)(hash_functions_names + i);
     }    
-
-    //test_functions(buffer, hash_functions, names_funcs, COUNT_TYPE_HASH_FUNCS, buffer_test, 100);
     
-    test_functions(buffer, hash_functions, names_funcs, COUNT_TYPE_HASH_FUNCS, buffer_test, 1, "graphes/", 1920, 1080);
+    test_functions(buffer, hash_functions, names_funcs, COUNT_HASH_FUNCS, buffer_test, 100);
+    
+    //test_functions(buffer, hash_functions, names_funcs, COUNT_TYPE_HASH_FUNCS, buffer_test, 10, "graphes/", 1920, 1080);
 
     free(string);
 
