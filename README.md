@@ -15,7 +15,25 @@
 
 ### Посмотрим на скорость 
 
-![](https://github.com/levasemin/hash/blob/master/images/speed/speed.png)
+```
+Hash function: HashOnlyOne
+Time : 142949718864
+
+Hash function: HashFirstWord
+Time : 14838281256
+
+Hash function: HashAsciiSum
+Time : 766177758
+
+Hash function: HashLenWord
+Time : 36776268010
+
+Hash function: HashRolling
+Time : 326661378
+
+Hash function: HashCrc32
+Time : 150202254
+```   
 
 ### Only one
 Функция хеширования `uint hash_only_one(const char *key)`.
@@ -47,7 +65,7 @@ uint hash_first_word(const char *key)
 Функция хеширования `uint hash_len_word(const char *key)`. 
 Возвращает: длина слова.
 
-![](https://github.com/levasemin/hash/blob/master/images/graphics/hash_len.png)
+![](https://github.com/levasemin/hash/blob/master/images/graphics/len_word.png)
 
 ```
 uint hash_len_word(const char *key)
@@ -129,7 +147,7 @@ uint hash_crc32(const char *key)
  Как видим, самым нагруженным местом является функция `uint hash_crc32(const char *key)`, которая вычисляет хеш,что в принципе логично, ведь она вызывается
  каждый раз, когда мы начинаем искать какое-то слово, чтобы узнать место списка в хеш таблице. Попробуем её оптимизировать. 
  
- Скорость составила 7689 млн тиков. 
+ Скорость составила 1205 млн тиков.
   
   ##### 2 этап
   
@@ -160,7 +178,7 @@ uint hash_crc32_intr(const char *key)
 
 После замены хеш функции главной проблемой стала функция `struct list *list_find(struct list *head, const char *elem)`. Если посмотреть на распределение нагрузки внутри неё, можно увидеть, что главная проблема `extern int strcmp (const char *__s1, const char *__s2)`, несмотря на то, что оставшиеся 52% занимает сравнение указателей с NULL. Ускорить сравнение указателей мы не можем, оно нагружает настолько сильно только из-за количества раз и факта обращения.
 
-Скорость составила 5600 млн тиков, что быстрее на 27.1 %
+Скорость составила 961 млн тиков, что быстрее на 25.2 %
 
 ##### 3 этап
 Заменена функция `extern int strcmp (const char *__s1, const char *__s2)` на `int strcmp_intr(const char *string1, const char *string2)`, использующая intrinsic функции 
@@ -180,7 +198,7 @@ int strcmp_intr(const char *str1, const char *str2)
 ```
 ![](https://github.com/levasemin/hash/blob/master/images/stage_3.png)
 
-Скорость составила 5073 млн тиков, что быстрее на 9.5 %
+Скорость составила 1162 млн тиков, что быстрее на 9.5 %
 
 ### Альтернативные способы оптимизации
 
