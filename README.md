@@ -189,7 +189,7 @@ int strcmp_intr(const char *str1, const char *str2)
 
 Напишем функцию `uint hash_ascii_sum(const char *key)` на ассемблере `u_int32_t hash_ascii_sum_asm(const char *key)` и прогоним два варианта на 100 повторениях будет ли с ней работать быстрее?
 
-'''
+```
 global hash_ascii_sum_asm
 
 hash_ascii_sum_asm:
@@ -218,12 +218,14 @@ pop rdi
 pop rbx
 
 ret
-'''
+```
 
 Результат функции на С 
+
 ![](https://github.com/levasemin/hash/blob/master/images/speed/speed_ascii_sum_o3.png)
 
 Результат функции на ассемблере
+
 ![](https://github.com/levasemin/hash/blob/master/images/speed/speed_ascii_sum_asm_o3.png)
 
 Как видим, разницы нет, сложно написать код на ассемблере, который утрет нос оптимизации О3
