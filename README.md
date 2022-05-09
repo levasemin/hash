@@ -101,7 +101,7 @@ uint hash_first_word(const char *key)
 ```
 
 ### Len word
-Функция хеширования `uint hash_len_word(const char *key)`
+Функция хеширования `uint hash_len_word(const char *key)`. 
 Возвращает: длина слова.
 
 ![](https://github.com/levasemin/hash/blob/master/images/graphics/hash_len.png)
@@ -131,7 +131,7 @@ uint hash_ascii_sum(const char *key)
 ```
 
 ### Rolling hash
-Функция хеширования `uint hash_rolling(const char *key)`
+Функция хеширования `uint hash_rolling(const char *key)`.
 Возвращает: значение по формуле.
 
 ![](https://github.com/levasemin/hash/blob/master/images/graphics/rolling.png)
@@ -151,7 +151,7 @@ uint hash_rolling(const char *key)
 ```
 
 ### CRC32 hash
-Функция хеширования  `uint hash_crc32(const char *key)`
+Функция хеширования  `uint hash_crc32(const char *key)`.
 Возвращает: значение по формуле.
 
 ![](https://github.com/levasemin/hash/blob/master/images/graphics/crc32.png)
