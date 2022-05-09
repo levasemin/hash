@@ -6,7 +6,35 @@ extern __inline__ uint64_t rdtsc() {
    return x;
  }
 
-void plot_functions(const char *path, struct buffer *buffer, uint (**hash_functions)(const char *key), char **titles, int x_size, int y_size, size_t n)
+void test_functions(struct buffer *buffer, uint (**hash_functions)(const char *key), char **titles, int n, struct buffer *buffer_test, int epoch, const char *path, int x_size, int y_size)
+{
+    //FILE *gnuplotPipe = multiplot("Hash functions", 3, 3);
+    
+    size_t len = strlen(path);
+
+    for (int i = 0; i < n; i++)
+    {
+        struct hash_table *hash_table = hash_table_create(hash_functions[i],  ALLOCATED);
+            
+        fill_hash_table(hash_table, buffer);
+
+        char *local_path = (char *)calloc(MAX_LEN, sizeof(char));
+
+        sprintf(local_path, "%s%s", path, titles[i]);
+
+        FILE *gnuplotPipe = popen("gnuplot -persistent", "w");
+
+        create_graph(gnuplotPipe, hash_table, PERCENT_OUTLIER, titles[i], local_path, x_size, y_size);
+        
+        run_test(hash_table, buffer_test, titles[i], epoch);
+
+        hash_table_destroy(hash_table);
+
+        free(local_path);
+    }
+}
+
+void test_functions(struct buffer *buffer, uint (**hash_functions)(const char *key), char **titles, int n, const char *path, int x_size, int y_size)
 {
     //FILE *gnuplotPipe = multiplot("Hash functions", 3, 3);
     
@@ -32,8 +60,21 @@ void plot_functions(const char *path, struct buffer *buffer, uint (**hash_functi
     }
 }
 
+void test_functions(struct buffer *buffer, uint (**hash_functions)(const char *key),  char **titles, int n, struct buffer *buffer_test, int epoch)
+{
+    for (int i = 0; i < n; i++)
+    {
+        struct hash_table *hash_table = hash_table_create(hash_functions[i],  ALLOCATED);
+                
+        fill_hash_table(hash_table, buffer);
 
-void run_test(hash_table *hash_table, struct buffer *buffer, int epoch)
+        run_test(hash_table, buffer_test, titles[i], epoch);
+    }
+    
+    return;
+}
+
+void run_test(hash_table *hash_table, struct buffer *buffer, char *title, int epoch)
 {
     size_t i = 0;
 
@@ -47,7 +88,7 @@ void run_test(hash_table *hash_table, struct buffer *buffer, int epoch)
         }
     }
 
-    printf("Time : %lu\n", rdtsc() - i);
+    printf("Hash function: %s\nTime : %lu\n\n", title, rdtsc() - i);
 
     return;
 }

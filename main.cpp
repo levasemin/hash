@@ -45,7 +45,7 @@ int main()
         names_funcs[i] = (char *)(hash_functions_names + i);
     }
 
-    plot_functions("graphes/", buffer, hash_functions, names_funcs, 1920, 1080, COUNT_HASH_FUNCS);
+    test_functions(buffer, hash_functions, names_funcs, COUNT_HASH_FUNCS, buffer_test, 10, "graphes/", 1920, 1080);
 
     free(string);
 

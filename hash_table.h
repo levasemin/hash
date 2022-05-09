@@ -27,6 +27,7 @@ const double PERCENT_OUTLIER = 0.01;
 
 typedef char word[MAX_LEN];
 
+
 struct hash_table
 {
     size_t allocated;
@@ -153,9 +154,17 @@ void buffer_destroy(struct buffer *buffer);
 
 void fill_hash_table(struct hash_table *hash_table, struct buffer *buffer);
 
+
 extern __inline__ uint64_t rdtsc();
 
-void run_test(hash_table *hash_table, struct buffer *buffer, int epoch);
+void run_test(hash_table *hash_table, struct buffer *buffer, char *title, int epoch);
+
+void test_functions(struct buffer *buffer, uint (**hash_functions)(const char *key), char **titles, int n, struct buffer *buffer_test, int epoch, const char *path, int x_size, int y_size);
+
+void test_functions(struct buffer *buffer, uint (**hash_functions)(const char *key), char **titles, int n, const char *path, int x_size, int y_size);
+
+void test_functions(struct buffer *buffer, uint (**hash_functions)(const char *key),  char **titles, int n, struct buffer *buffer_test, int epoch);
+
 
 void create_graph(FILE *gnuplotPipe, hash_table *hash_table, double percent_outlier, const char *title, const char *path, int x_size, int y_size);
 
