@@ -6,13 +6,13 @@ extern __inline__ uint64_t rdtsc() {
    return x;
  }
 
-void plot_functions(const char *path, struct buffer *buffer, uint (**hash_functions)(const char *key), char **titles, size_t n)
+void plot_functions(const char *path, struct buffer *buffer, uint (**hash_functions)(const char *key), char **titles, int x_size, int y_size, size_t n)
 {
     //FILE *gnuplotPipe = multiplot("Hash functions", 3, 3);
     
     size_t len = strlen(path);
 
-    for (int i = 0; i < COUNT_HASH_FUNCS; i++)
+    for (int i = 0; i < n; i++)
     {
         struct hash_table *hash_table = hash_table_create(hash_functions[i],  ALLOCATED);
             
@@ -20,13 +20,11 @@ void plot_functions(const char *path, struct buffer *buffer, uint (**hash_functi
 
         char *local_path = (char *)calloc(MAX_LEN, sizeof(char));
 
-        memcpy_intr(local_path, path, len);
-
-        sprintf(local_path, "%s", titles[i]);
+        sprintf(local_path, "%s%s", path, titles[i]);
 
         FILE *gnuplotPipe = popen("gnuplot -persistent", "w");
 
-        create_graph(gnuplotPipe, hash_table, PERCENT_OUTLIER, titles[i], path);
+        create_graph(gnuplotPipe, hash_table, PERCENT_OUTLIER, titles[i], local_path, x_size, y_size);
         
         hash_table_destroy(hash_table);
 

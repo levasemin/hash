@@ -12,8 +12,6 @@
 
 typedef size_t T;
 
-//#define strcmp strcmp_intr
-//#define memcpy memcpy_intr
 
 const int MAX_LEN = 32;
 
@@ -89,7 +87,7 @@ heap* merge(heap *cur_heap1, heap *cur_heap2);
 
 void heap_delete(heap *cur_heap);
 
-uint hash_stupid(const char *key);
+uint hash_only_one(const char *key);
 
 uint hash_first_word(const char *key);
 
@@ -99,9 +97,9 @@ extern "C" u_int32_t hash_ascii_sum_asm(char *key);
 
 uint hash_len_word(const char *key);
 
-uint hash_super_ded(const char *key);
+uint hash_rolling(const char *key);
 
-uint hash_super_ded_asm(const char *key);
+uint hash_rolling_asm(const char *key);
 
 uint hash_crc32(const char *key);
 
@@ -159,19 +157,13 @@ extern __inline__ uint64_t rdtsc();
 
 void run_test(hash_table *hash_table, struct buffer *buffer, int epoch);
 
-void create_graph(FILE *gnuplotPipe, hash_table *hash_table, double percent_outlier, const char *title, const char *path);
+void create_graph(FILE *gnuplotPipe, hash_table *hash_table, double percent_outlier, const char *title, const char *path, int x_size, int y_size);
 
 FILE * multiplot(const char *title, int x, int y);
 
-void plot(FILE *gnuplotPipe, const double *xvals, const double *yvals, int n, const char *title, const char *path, const char *special_com);
+void plot_functions(const char *path, struct buffer *buffer, uint (**hash_functions)(const char *key), char **titles, int x_size, int y_size, size_t n);
 
-uint (* const hash_functions[COUNT_HASH_FUNCS])(const char *key) =  {hash_crc32,
-                                                                    hash_stupid,
-                                                                    hash_first_word,
-                                                                    hash_ascii_sum,
-                                                                    hash_len_word,
-                                                                    hash_super_ded,
-                                                                    };
+void plot(FILE *gnuplotPipe, const double *xvals, const double *yvals, int x_size, int y_size, int n, const char *title, const char *path, const char *special_com);
 
 static const unsigned int crc32_table[] = {
   0x00000000, 0x04c11db7, 0x09823b6e, 0x0d4326d9,

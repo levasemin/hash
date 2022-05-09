@@ -1,6 +1,6 @@
 #include "hash_table.h"
 
-uint hash_stupid(const char *key)
+uint hash_only_one(const char *key)
 {
     return 1;
 }
@@ -24,7 +24,8 @@ uint hash_len_word(const char *key)
     return strlen(key);
 }
 
-uint hash_super_ded(const char *key)
+
+uint hash_rolling(const char *key)
 {
     uint hash = key[0];
     
@@ -36,7 +37,7 @@ uint hash_super_ded(const char *key)
     return hash;
 }
 
-uint hash_super_ded_asm(const char *key)
+uint hash_rolling_asm(const char *key)
 {
     uint hash = 0;
 
@@ -65,6 +66,22 @@ uint hash_super_ded_asm(const char *key)
     return hash;
 }
 
+
+uint hash_crc32(const char *key)
+{
+    unsigned ret = 0xFFFFFFFF;
+    
+    while (*key != '\0')
+    {
+        ret ^= *key & 0xFF;
+        ret = (ret >> 8) ^ crc32_table[ret & 0xFF];
+        
+        key++;
+    }
+
+    return ret ^ 0xFFFFFFFF;
+}
+
 uint hash_crc32_intr(const char *key)
 {    
     long long *array = (long long *)key;
@@ -82,19 +99,4 @@ uint hash_crc32_intr(const char *key)
     }
 
     return res;
-}
-
-uint hash_crc32(const char *key)
-{
-    unsigned ret = 0xFFFFFFFF;
-    
-    while (*key != '\0')
-    {
-        ret ^= *key & 0xFF;
-        ret = (ret >> 8) ^ crc32_table[ret & 0xFF];
-        
-        key++;
-    }
-
-    return ret ^ 0xFFFFFFFF;
 }
