@@ -46,7 +46,9 @@ int main()
     //test_functions(buffer, hash_functions, names_funcs, COUNT_HASH_FUNCS, buffer_test, 100);
     
     test_functions(buffer, hash_functions, names_funcs, COUNT_TYPE_HASH_FUNCS, buffer_test, 1, "graphes/", 1920, 1080);
-
+    //hash_table *hash_table = hash_table_create(hash_crc32_intr, ALLOCATED);
+    //fill_hash_table(hash_table, buffer);
+    //run_test(hash_table, buffer_test, "HashCrc32Intr", 100);
     free(string);
 
     buffer_destroy(buffer);
