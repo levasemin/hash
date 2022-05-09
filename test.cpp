@@ -7,9 +7,7 @@ extern __inline__ uint64_t rdtsc() {
  }
 
 void test_functions(struct buffer *buffer, uint (**hash_functions)(const char *key), char **titles, int n, struct buffer *buffer_test, int epoch, const char *path, int x_size, int y_size)
-{
-    //FILE *gnuplotPipe = multiplot("Hash functions", 3, 3);
-    
+{    
     size_t len = strlen(path);
 
     for (int i = 0; i < n; i++)
@@ -35,9 +33,7 @@ void test_functions(struct buffer *buffer, uint (**hash_functions)(const char *k
 }
 
 void test_functions(struct buffer *buffer, uint (**hash_functions)(const char *key), char **titles, int n, const char *path, int x_size, int y_size)
-{
-    //FILE *gnuplotPipe = multiplot("Hash functions", 3, 3);
-    
+{    
     size_t len = strlen(path);
 
     for (int i = 0; i < n; i++)

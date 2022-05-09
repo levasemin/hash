@@ -34,8 +34,6 @@ int main()
 
     struct buffer *buffer_test = buffer_make(words, BUFFER_SIZE, MAX_LEN);
 
-    hash_functions[0] = hash_ascii_sum_asm;
-
     char **names_funcs = (char **)calloc(COUNT_TYPE_HASH_FUNCS, sizeof(char *));
 
     for (int i = 0; i < COUNT_TYPE_HASH_FUNCS; i++)
@@ -43,9 +41,9 @@ int main()
         names_funcs[i] = (char *)(hash_functions_names + i);
     }    
 
-    test_functions(buffer, hash_functions, names_funcs, COUNT_TYPE_HASH_FUNCS, buffer_test, 100);
+    //test_functions(buffer, hash_functions, names_funcs, COUNT_TYPE_HASH_FUNCS, buffer_test, 100);
     
-    //test_functions(buffer, hash_functions, names_funcs, COUNT_HASH_FUNCS, buffer_test, 10, "graphes/", 1920, 1080);
+    test_functions(buffer, hash_functions, names_funcs, COUNT_TYPE_HASH_FUNCS, buffer_test, 1, "graphes/", 1920, 1080);
 
     free(string);
 

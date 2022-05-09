@@ -179,7 +179,7 @@ FILE * multiplot(const char *title, int x, int y);
 
 void plot_functions(const char *path, struct buffer *buffer, uint (**hash_functions)(const char *key), char **titles, int x_size, int y_size, size_t n);
 
-void plot(FILE *gnuplotPipe, const double *xvals, const double *yvals, int x_size, int y_size, int n, const char *title, const char *path, const char *special_com);
+void plot(FILE *gnuplotPipe, const double *yvals, int x_size, int y_size, int n, const char *title, const char *path, const char *special_com);
 
 static const unsigned int crc32_table[] = {
   0x00000000, 0x04c11db7, 0x09823b6e, 0x0d4326d9,

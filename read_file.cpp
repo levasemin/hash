@@ -74,7 +74,7 @@ struct buffer *buffer_make(char *string, size_t buffer_size, size_t max_len)
 
         buffer->buffer[buffer->count][index] = '\0';
         
-        if (index > 2)
+        if (index > 0)
         {
             buffer->count ++;
         }
