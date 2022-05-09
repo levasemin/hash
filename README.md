@@ -70,3 +70,103 @@ int strcmp_intr(const char *str1, const char *str2)
 ![](https://github.com/levasemin/hash/blob/master/images/stage_3.png)
 
 Скорость составила 5073327920 тиков, что быстрее на 9.42 %
+
+##Посмотрим на графики функций для хеширования
+### Only one
+Функция хеширования `uint hash_only_one(const char *key)`
+Возвращает: 1.
+
+![]()
+
+```
+uint hash_only_one(const char *key)
+{
+    return 1;
+}
+```
+
+### First word
+Функция хеширования `uint hash_first_word(const char *key)` 
+Возвращает: ASCII код первой буквы слова.
+
+![]()
+
+```
+uint hash_first_word(const char *key)
+{
+    return (uint)*key;
+}
+```
+
+### Len word
+Функция хеширования `uint hash_len_word(const char *key)`
+Возвращает: длина слова.
+
+![]()
+
+```
+uint hash_len_word(const char *key)
+{
+    return strlen(key);
+}
+```
+
+### ASCII Sum
+Функция хеширования `uint hash_ascii_sum(const char *key)`
+Возвращает: сумму ASCII кодов букв слова
+
+![]()
+
+```
+uint hash_ascii_sum(const char *key)
+{
+    uint hash = 0;
+
+    for (; *key != '\0'; hash += *key, key++);
+    
+    return hash;
+}
+```
+
+### Rolling hash
+Функция хеширования `uint hash_rolling(const char *key)`
+Возвращает: значение по формуле.
+
+![]()
+
+```
+uint hash_rolling(const char *key)
+{
+    uint hash = key[0];
+    
+    for(int i = 1; key[i] != '\0'; i++)
+    {
+        hash = ((hash >> 1) | (hash << 31)) ^ key[i];
+    } 
+
+    return hash;
+}
+```
+
+### CRC32 hash
+Функция хеширования  `uint hash_crc32(const char *key)`
+Возвращает: значение по формуле.
+
+![]()
+
+```
+uint hash_crc32(const char *key)
+{
+    unsigned ret = 0xFFFFFFFF;
+    
+    while (*key != '\0')
+    {
+        ret ^= *key & 0xFF;
+        ret = (ret >> 8) ^ crc32_table[ret & 0xFF];
+        
+        key++;
+    }
+
+    return ret ^ 0xFFFFFFFF;
+}
+```
