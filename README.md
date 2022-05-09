@@ -15,7 +15,25 @@
 
 ### Посмотрим на скорость 
 
-![](https://github.com/levasemin/hash/blob/master/images/speed/speed.png)
+```
+Hash function: HashOnlyOne
+Time : 142949718864
+
+Hash function: HashFirstWord
+Time : 14838281256
+
+Hash function: HashAsciiSum
+Time : 766177758
+
+Hash function: HashLenWord
+Time : 36776268010
+
+Hash function: HashRolling
+Time : 326661378
+
+Hash function: HashCrc32
+Time : 150202254
+```   
 
 ### Only one
 Функция хеширования `uint hash_only_one(const char *key)`.
