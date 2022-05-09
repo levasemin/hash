@@ -12,7 +12,6 @@
 
 typedef size_t T;
 
-
 const int MAX_LEN = 32;
 
 const int BUFFER_SIZE = 10000000;
@@ -78,6 +77,7 @@ int compare0(T *el1, T *el2);
 
 int compare1(T *el1, T *el2);
 
+
 heap *heap_create(size_t count, int type);
 
 void heap_add(heap *cur_heap, T *elem);
@@ -88,11 +88,15 @@ heap* merge(heap *cur_heap1, heap *cur_heap2);
 
 void heap_delete(heap *cur_heap);
 
+
+
 uint hash_only_one(const char *key);
 
 uint hash_first_word(const char *key);
 
 uint hash_ascii_sum(const char *key);
+
+
 
 extern "C" u_int32_t hash_ascii_sum_asm(char *key);
 
@@ -106,9 +110,11 @@ uint hash_crc32(const char *key);
 
 uint hash_crc32_intr(const char *key);
 
+
 int strcmp_intr(const char *string1, const char *string2);
 
 void memcpy_intr(char *str1, const char *str2, int n);
+
 
 struct list *list_new(const char *elem);
 
