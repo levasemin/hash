@@ -71,12 +71,14 @@ int strcmp_intr(const char *str1, const char *str2)
 
 Скорость составила 5073327920 тиков, что быстрее на 9.42 %
 
-##Посмотрим на графики функций для хеширования
+## Посмотрим на графики функций для хеширования
+Все графики построены с помощьью GnuPlot и написанной функции `void plot_functions(...)`. Они отображают коллизию выбранной функции на основе данных из 7 томов, для лучшей оценки 1% самых больших значений обрезается до максимума из оставшихся 99%.
+
 ### Only one
-Функция хеширования `uint hash_only_one(const char *key)`
+Функция хеширования `uint hash_only_one(const char *key)`.
 Возвращает: 1.
 
-![]()
+![](https://github.com/levasemin/hash/blob/master/images/graphics/only_one.png)
 
 ```
 uint hash_only_one(const char *key)
@@ -86,10 +88,10 @@ uint hash_only_one(const char *key)
 ```
 
 ### First word
-Функция хеширования `uint hash_first_word(const char *key)` 
+Функция хеширования `uint hash_first_word(const char *key)`.
 Возвращает: ASCII код первой буквы слова.
 
-![]()
+![](https://github.com/levasemin/hash/blob/master/images/graphics/first_word.png)
 
 ```
 uint hash_first_word(const char *key)
@@ -99,10 +101,10 @@ uint hash_first_word(const char *key)
 ```
 
 ### Len word
-Функция хеширования `uint hash_len_word(const char *key)`
+Функция хеширования `uint hash_len_word(const char *key)`. 
 Возвращает: длина слова.
 
-![]()
+![](https://github.com/levasemin/hash/blob/master/images/graphics/hash_len.png)
 
 ```
 uint hash_len_word(const char *key)
@@ -115,7 +117,7 @@ uint hash_len_word(const char *key)
 Функция хеширования `uint hash_ascii_sum(const char *key)`
 Возвращает: сумму ASCII кодов букв слова
 
-![]()
+![](https://github.com/levasemin/hash/blob/master/images/graphics/ascii_sum.png)
 
 ```
 uint hash_ascii_sum(const char *key)
@@ -129,10 +131,10 @@ uint hash_ascii_sum(const char *key)
 ```
 
 ### Rolling hash
-Функция хеширования `uint hash_rolling(const char *key)`
+Функция хеширования `uint hash_rolling(const char *key)`.
 Возвращает: значение по формуле.
 
-![]()
+![](https://github.com/levasemin/hash/blob/master/images/graphics/rolling.png)
 
 ```
 uint hash_rolling(const char *key)
@@ -149,10 +151,10 @@ uint hash_rolling(const char *key)
 ```
 
 ### CRC32 hash
-Функция хеширования  `uint hash_crc32(const char *key)`
+Функция хеширования  `uint hash_crc32(const char *key)`.
 Возвращает: значение по формуле.
 
-![]()
+![](https://github.com/levasemin/hash/blob/master/images/graphics/crc32.png)
 
 ```
 uint hash_crc32(const char *key)
@@ -170,3 +172,4 @@ uint hash_crc32(const char *key)
     return ret ^ 0xFFFFFFFF;
 }
 ```
+По графикам можно заметить, что наименьшие значения и разброс по всем ячейкам в хеш таблице принимает crc32. 
