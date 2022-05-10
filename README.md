@@ -240,11 +240,13 @@ ret
 
 Результат функции на С 
 
-![](https://github.com/levasemin/hash/blob/master/images/speed/speed_ascii_sum_o3.png)
+Hash function: HashAsciiSum
+Time : 6126 млн тиков
 
 Результат функции на ассемблере
 
-![](https://github.com/levasemin/hash/blob/master/images/speed/speed_ascii_sum_asm_o3.png)
+Hash function: HashAsciiSumAsm
+Time : 6143 млн тиков
 
 Как видим, разницы нет, сложно написать код на ассемблере, который утрет нос оптимизации О3
 
@@ -253,9 +255,17 @@ ret
 
 Результат функции на С
 
-![](https://github.com/levasemin/hash/blob/master/images/speed/speed_hash_rolling.png)
+```
+Hash function: HashRolling
+Time : 2645 млн тиков
+```
 
 Результат функции с ассемблером
+
+```
+Hash function: HashRollingAsm
+Time : 2798 млн тиков
+```
 
 ![](https://github.com/levasemin/hash/blob/master/images/speed/speed_hash_rolling_asm.png)
 
