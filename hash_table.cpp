@@ -30,11 +30,12 @@ void hash_table_insert (struct hash_table *hash_table, const char *key)
 
     else 
     {
-        lists->head = list_insert(lists->head, key);
+        int was = 0;
+        
+        lists->head = list_insert(lists->head, key, &was);
 
-        lists->count ++;
-    
-        hash_table->count ++;
+        lists->count += was;
+        hash_table->count += was;
     }
 }
 

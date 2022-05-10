@@ -14,16 +14,11 @@ void create_graph(FILE *gnuplotPipe, hash_table *hash_table, double percent_outl
         struct lists lists = hash_table->lists[i];
             
         array_y[count] = lists.count;
-
+    
         count++;
-         
-        if (lists.count != 0)
-        {
-            res_count = count;
-        }
     }
     
-    plot(gnuplotPipe, array_y, x_size, y_size, res_count, title, path, "");//"set boxwidth 0.9 relative\n set style data histograms\n set style fill solid 1.0 border -1");
+    plot(gnuplotPipe, array_y, x_size, y_size, count, title, path, "");//"set boxwidth 0.9 relative\n set style data histograms\n set style fill solid 1.0 border -1");
 }
 
 FILE * multiplot(const char *title, int x, int y)
@@ -52,7 +47,7 @@ void plot(FILE *gnuplotPipe, const double *yvals, int x_size, int y_size, int n,
     sprintf(size_command, "set terminal wxt size %d,%d", x_size, y_size);
 
     
-    const char * commandsForGnuplot[] = {"set style fill solid 1.0 border -1", "set style data histograms", size_command, title_command, plot_command};
+    const char * commandsForGnuplot[] = {"set style fill solid 1.0 border -1", "", "set style data histograms", size_command, title_command, plot_command};
 
     FILE * temp = fopen(path, "w");
     
@@ -61,7 +56,7 @@ void plot(FILE *gnuplotPipe, const double *yvals, int x_size, int y_size, int n,
         fprintf(temp, "%lf \n", yvals[i]); //Write the data to a temporary file
     }
 
-    for (int i=0; i < 5; i++)
+    for (int i=0; i < 6; i++)
     {
         fprintf(gnuplotPipe, "%s \n", commandsForGnuplot[i]); //Send commands to gnuplot one by one.
     }

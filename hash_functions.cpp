@@ -5,7 +5,7 @@ uint hash_only_one(const char *key)
     return 1;
 }
 
-uint hash_first_word(const char *key)
+uint hash_first_letter(const char *key)
 {
     return (uint)*key;
 }

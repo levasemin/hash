@@ -93,7 +93,7 @@ void heap_delete(heap *cur_heap);
 
 uint hash_only_one(const char *key);
 
-uint hash_first_word(const char *key);
+uint hash_first_letter(const char *key);
 
 uint hash_ascii_sum(const char *key);
 
@@ -119,7 +119,7 @@ void memcpy_intr(char *str1, const char *str2, int n);
 
 struct list *list_new(const char *elem);
 
-struct list *list_insert(struct list *head, const char *elem);
+struct list *list_insert(struct list *head, const char *elem, int *was);
 
 struct list *list_find(struct list *head, const char *elem);
 

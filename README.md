@@ -49,13 +49,13 @@ uint hash_only_one(const char *key)
 ```
 
 ### First word
-Функция хеширования `uint hash_first_word(const char *key)`.
+Функция хеширования `uint hash_first_letter(const char *key)`.
 Возвращает: ASCII код первой буквы слова.
 
-![](https://github.com/levasemin/hash/blob/master/images/graphics/first_word.png)
+![](https://github.com/levasemin/hash/blob/master/images/graphics/first_letter.png)
 
 ```
-uint hash_first_word(const char *key)
+uint hash_first_letter(const char *key)
 {
     return (uint)*key;
 }

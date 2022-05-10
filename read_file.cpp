@@ -51,17 +51,15 @@ struct buffer *buffer_make(char *string, size_t buffer_size, size_t max_len)
     
     buffer->max_len = max_len;
 
-    size_t n = strlen((const char *)string);
-
-    for (size_t i = 0; i < n && buffer->count < buffer_size; i++)
+    for (size_t i = 0; string[i] && buffer->count < buffer_size; i++)
     {
         int index = 0;
         
         buffer->buffer[buffer->count] = text + buffer->count * MAX_LEN;
 
-        for (; i < n && index < MAX_LEN; i++, index++)
+        for (; string[i] && index < MAX_LEN; i++, index++)
         {            
-            if ((string[i] >= 97 && string[i] <= 122) || (string[i] >= 65 && string[i] <= 90))
+            if (isalpha(string[i]))
             {
                 buffer->buffer[buffer->count][index] = string[i];
             }

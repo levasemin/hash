@@ -84,7 +84,7 @@ inline uint hash_crc32(const char *key)
     return ret ^ 0xFFFFFFFF;
 }
 
-uint hash_first_word(const char *key)
+uint hash_first_letter(const char *key)
 {
     return (uint)*key;
 }

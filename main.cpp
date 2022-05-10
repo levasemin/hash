@@ -5,7 +5,7 @@ const char *eng_words = "/home/levce/projectsDED/hash/source/eng_words.txt";
 
 uint (*hash_functions[COUNT_HASH_FUNCS])(const char *key) =  {
                                             hash_only_one,
-                                            hash_first_word,
+                                            hash_first_letter,
                                             hash_ascii_sum,
                                             hash_len_word,
                                             hash_rolling,
@@ -17,7 +17,7 @@ uint (*hash_functions[COUNT_HASH_FUNCS])(const char *key) =  {
 
 char hash_functions_names[COUNT_HASH_FUNCS][MAX_LEN] = {
                                 "HashOnlyOne",
-                                "HashFirstWord",
+                                "HashFirstLetter",
                                 "HashAsciiSum",
                                 "HashLenWord",
                                 "HashRolling",                                    
