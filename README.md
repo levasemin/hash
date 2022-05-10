@@ -19,7 +19,7 @@
 Hash function: HashOnlyOne
 Time : 142949718864
 
-Hash function: HashFirstWord
+Hash function: HashFirstLetter
 Time : 14838281256
 
 Hash function: HashAsciiSum
@@ -48,7 +48,7 @@ uint hash_only_one(const char *key)
 }
 ```
 
-### First word
+### First letter
 Функция хеширования `uint hash_first_letter(const char *key)`.
 Возвращает: ASCII код первой буквы слова.
 
