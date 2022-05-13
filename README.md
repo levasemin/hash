@@ -140,22 +140,8 @@ uint hash_crc32(const char *key)
  ## Оптимизация 
  
  ##### 1 этап
- Попробуем запустить профайлер на тесте неоптимизированной таблицы, используя хеш crc32.
-
- ![](https://github.com/levasemin/hash/blob/master/images/stage_1.png)
- 
- Как видим, самым нагруженным местом является функция `uint hash_crc32(const char *key)`, которая вычисляет хеш,что в принципе логично, ведь она вызывается
- каждый раз, когда мы начинаем искать какое-то слово, чтобы узнать место списка в хеш таблице. Попробуем её оптимизировать. 
- 
-Скорость составила 
-```
-Hash function: HashCrc32
-Time : 1582420990
-```
-
-  ##### 2 этап
   
-  Заменена функция `uint hash_crc32(const char *key)` на `uint hash_crc32_intr(const char *key)`, использующая intrinsic функцию `unsigned __int64 _mm_crc32_u64 (unsigned __int64 crc, unsigned __int64 v)`. Посмотрим, как на это отреагирует профайлер и насколько ускорится программа.
+Заменена функция `uint hash_crc32(const char *key)` на `uint hash_crc32_intr(const char *key)`, использующая intrinsic функцию `unsigned __int64 _mm_crc32_u64 (unsigned __int64 crc, unsigned __int64 v)`. Посмотрим, как на это отреагирует профайлер и насколько ускорится программа.
 
 ```
 uint hash_crc32_intr(const char *key)
@@ -189,6 +175,20 @@ Time : 1421138226
 ```
 
 Скорость выросла на 10.2%
+
+##### 2 этап
+Попробуем запустить профайлер на тесте неоптимизированной таблицы, используя хеш crc32.
+
+ ![](https://github.com/levasemin/hash/blob/master/images/stage_1.png)
+ 
+ Как видим, самым нагруженным местом является функция `uint hash_crc32(const char *key)`, которая вычисляет хеш,что в принципе логично, ведь она вызывается
+ каждый раз, когда мы начинаем искать какое-то слово, чтобы узнать место списка в хеш таблице. Попробуем её оптимизировать. 
+ 
+Скорость составила 
+```
+Hash function: HashCrc32
+Time : 1582420990
+```
 
 ##### 3 этап
 Заменена функция `extern int strcmp (const char *__s1, const char *__s2)` на `int strcmp_intr(const char *string1, const char *string2)`, использующая intrinsic функции 
