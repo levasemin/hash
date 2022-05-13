@@ -17,22 +17,22 @@
 
 ```
 Hash function: HashOnlyOne
-Time : 142949718864
+Time : 139255952366
 
-Hash function: HashFirstWord
-Time : 14838281256
-
-Hash function: HashAsciiSum
-Time : 766177758
+Hash function: HashFirstLetter
+Time : 18082155664
 
 Hash function: HashLenWord
-Time : 36776268010
+Time : 66315319400
+
+Hash function: HashAsciiSum
+Time : 835738956
 
 Hash function: HashRolling
-Time : 326661378
+Time : 457679570
 
 Hash function: HashCrc32
-Time : 150202254
+Time : 245941998
 ```   
 
 ### Only one
@@ -48,7 +48,7 @@ uint hash_only_one(const char *key)
 }
 ```
 
-### First word
+### First letter
 Функция хеширования `uint hash_first_letter(const char *key)`.
 Возвращает: ASCII код первой буквы слова.
 
@@ -147,8 +147,12 @@ uint hash_crc32(const char *key)
  Как видим, самым нагруженным местом является функция `uint hash_crc32(const char *key)`, которая вычисляет хеш,что в принципе логично, ведь она вызывается
  каждый раз, когда мы начинаем искать какое-то слово, чтобы узнать место списка в хеш таблице. Попробуем её оптимизировать. 
  
- Скорость составила 1205 млн тиков.
-  
+Скорость составила 
+```
+Hash function: HashCrc32
+Time : 1582420990
+```
+
   ##### 2 этап
   
   Заменена функция `uint hash_crc32(const char *key)` на `uint hash_crc32_intr(const char *key)`, использующая intrinsic функцию `unsigned __int64 _mm_crc32_u64 (unsigned __int64 crc, unsigned __int64 v)`. Посмотрим, как на это отреагирует профайлер и насколько ускорится программа.
@@ -178,7 +182,13 @@ uint hash_crc32_intr(const char *key)
 
 После замены хеш функции главной проблемой стала функция `struct list *list_find(struct list *head, const char *elem)`. Если посмотреть на распределение нагрузки внутри неё, можно увидеть, что главная проблема `extern int strcmp (const char *__s1, const char *__s2)`, несмотря на то, что оставшиеся 52% занимает сравнение указателей с NULL. Ускорить сравнение указателей мы не можем, оно нагружает настолько сильно только из-за количества раз и факта обращения.
 
-Скорость составила 961 млн тиков, что быстрее на 25.2 %
+Скорость составила
+```
+Hash function: HashCrc32
+Time : 1421138226
+```
+
+Скорость выросла на 10.2%
 
 ##### 3 этап
 Заменена функция `extern int strcmp (const char *__s1, const char *__s2)` на `int strcmp_intr(const char *string1, const char *string2)`, использующая intrinsic функции 
@@ -198,7 +208,12 @@ int strcmp_intr(const char *str1, const char *str2)
 ```
 ![](https://github.com/levasemin/hash/blob/master/images/stage_3.png)
 
-Скорость составила 858 млн тиков, что быстрее на 10.5 %
+Скорость составила
+```
+Hash function: HashCrc32Intr
+Time : 1337067284
+```
+858 млн тиков, что быстрее на 6.4 %
 
 ### Альтернативные способы оптимизации
 
@@ -240,11 +255,13 @@ ret
 
 Результат функции на С 
 
-![](https://github.com/levasemin/hash/blob/master/images/speed/speed_ascii_sum_o3.png)
+Hash function: HashAsciiSum
+Time : 6126 млн тиков
 
 Результат функции на ассемблере
 
-![](https://github.com/levasemin/hash/blob/master/images/speed/speed_ascii_sum_asm_o3.png)
+Hash function: HashAsciiSumAsm
+Time : 6143 млн тиков
 
 Как видим, разницы нет, сложно написать код на ассемблере, который утрет нос оптимизации О3
 
@@ -253,13 +270,18 @@ ret
 
 Результат функции на С
 
-![](https://github.com/levasemin/hash/blob/master/images/speed/speed_hash_rolling.png)
+```
+Hash function: HashRolling
+Time : 2645 млн тиков
+```
 
 Результат функции с ассемблером
 
-![](https://github.com/levasemin/hash/blob/master/images/speed/speed_hash_rolling_asm.png)
-
-Разницы особой нет, 3%, что в районе погрешности.
+```
+Hash function: HashRollingAsm
+Time : 2798 млн тиков
+```
+Стало даже хуже, сошлемся на оптимизацию О3.
 
 ### Итог
-Из оптимизаций на уровне логики- подбор хеш функции. тк от её коллизии напрямую зависит скорость работы хеш таблицы. С помощью оптимизаций на програмном уровне мы смогли на уровне оптимизации О3 с лучшей хеш функцией усокрить работу на 30.1%. 
+Из оптимизаций на уровне логики- подбор хеш функции. тк от её коллизии напрямую зависит скорость работы хеш таблицы. С помощью оптимизаций на програмном уровне мы смогли на уровне оптимизации О3 с лучшей хеш функцией усокрить работу на 15.9%. 
