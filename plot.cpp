@@ -1,7 +1,7 @@
 #include "hash_table.h"
 
 
-void create_graph(FILE *gnuplotPipe, hash_table *hash_table, double percent_outlier, const char *title, const char *path, int x_size, int y_size)
+void create_graph(FILE *gnuplotPipe, hash_table *hash_table, const char *title, const char *path, int x_size, int y_size)
 {
     double *array_y = (double *)calloc(hash_table->allocated, sizeof(double));
         

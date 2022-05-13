@@ -6,8 +6,8 @@ const char *eng_words = "/home/levce/projectsDED/hash/source/eng_words.txt";
 uint (*hash_functions[COUNT_HASH_FUNCS])(const char *key) =  {
                                             hash_only_one,
                                             hash_first_letter,
-                                            hash_ascii_sum,
                                             hash_len_word,
+                                            hash_ascii_sum,
                                             hash_rolling,
                                             hash_crc32,
                                             hash_crc32_intr,
@@ -18,8 +18,8 @@ uint (*hash_functions[COUNT_HASH_FUNCS])(const char *key) =  {
 char hash_functions_names[COUNT_HASH_FUNCS][MAX_LEN] = {
                                 "HashOnlyOne",
                                 "HashFirstLetter",
-                                "HashAsciiSum",
                                 "HashLenWord",
+                                "HashAsciiSum",
                                 "HashRolling",                                    
                                 "HashCrc32",
                                 "HashCrc32Intr",
@@ -43,9 +43,9 @@ int main()
         names_funcs[i] = (char *)(hash_functions_names + i);
     }    
     
-    //test_functions(buffer, hash_functions, names_funcs, COUNT_HASH_FUNCS, buffer_test, 100);
+    //test_functions(buffer, hash_functions + COUNT_TYPE_HASH_FUNCS, names_funcs + COUNT_TYPE_HASH_FUNCS, 1, buffer_test, 100);
     
-    test_functions(buffer, hash_functions, names_funcs, COUNT_TYPE_HASH_FUNCS, buffer_test, 1, "graphes/", 1920, 1080);
+    test_functions(buffer, hash_functions,  names_funcs, COUNT_TYPE_HASH_FUNCS, buffer_test, 10, "graphes/", 1920, 1080);
     //hash_table *hash_table = hash_table_create(hash_crc32_intr, ALLOCATED);
     //fill_hash_table(hash_table, buffer);
     //run_test(hash_table, buffer_test, "HashCrc32Intr", 100);
@@ -55,3 +55,5 @@ int main()
 
     return 0;
 }
+
+

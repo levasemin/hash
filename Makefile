@@ -6,8 +6,8 @@ CFLAGS = -c -g -O3 -mavx2
 all: clean main
 
 
-main : $(BuildF)main.o $(BuildF)hash_table.o $(BuildF)hash_functions.o $(BuildF)list.o $(BuildF)intr_functions.o $(BuildF)read_file.o $(BuildF)plot.o $(BuildF)ascii_sum_asm.o $(BuildF)heap.o $(BuildF)test.o
-	$(CC) -g -no-pie -O3 -mavx2 $(BuildF)ascii_sum_asm.o $(BuildF)main.o $(BuildF)hash_table.o $(BuildF)hash_functions.o $(BuildF)list.o $(BuildF)intr_functions.o $(BuildF)read_file.o $(BuildF)plot.o $(BuildF)heap.o $(BuildF)test.o -o hash_table.out
+main : $(BuildF)main.o $(BuildF)hash_table.o $(BuildF)hash_functions.o $(BuildF)list.o $(BuildF)intr_functions.o $(BuildF)read_file.o $(BuildF)plot.o $(BuildF)ascii_sum_asm.o $(BuildF)test.o
+	$(CC) -g -no-pie -O3 -mavx2 $(BuildF)ascii_sum_asm.o $(BuildF)main.o $(BuildF)hash_table.o $(BuildF)hash_functions.o $(BuildF)list.o $(BuildF)intr_functions.o $(BuildF)read_file.o $(BuildF)plot.o $(BuildF)test.o -o hash_table.out
 
 
 $(BuildF)test.o:
@@ -16,8 +16,6 @@ $(BuildF)test.o:
 $(BuildF)ascii_sum_asm.o:
 	nasm -felf64 ascii_sum_asm.nasm -o $(BuildF)ascii_sum_asm.o
 
-$(BuildF)heap.o:
-	$(CC) $(CFLAGS) heap.cpp -o $(BuildF)heap.o
 
 $(BuildF)main.o:
 	$(CC) $(CFLAGS) main.cpp -o $(BuildF)main.o

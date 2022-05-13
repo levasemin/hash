@@ -16,14 +16,12 @@ const int MAX_LEN = 32;
 
 const int BUFFER_SIZE = 10000000;
 
-const int ALLOCATED   = 100003;
+const int ALLOCATED   = 10003;
 
 const int LEN_PATH = 300;
 
 const int COUNT_TYPE_HASH_FUNCS = 6;
 const int COUNT_HASH_FUNCS = 9;
-
-const double PERCENT_OUTLIER = 0.01;
 
 typedef char word[MAX_LEN];
 
@@ -77,17 +75,6 @@ struct heap
 int compare0(T *el1, T *el2);
 
 int compare1(T *el1, T *el2);
-
-
-heap *heap_create(size_t count, int type);
-
-void heap_add(heap *cur_heap, T *elem);
-
-void heap_head_delete(heap *cur_heap);
-
-heap* merge(heap *cur_heap1, heap *cur_heap2);
-
-void heap_delete(heap *cur_heap);
 
 
 
@@ -173,7 +160,7 @@ void test_functions(struct buffer *buffer, uint (**hash_functions)(const char *k
 void test_functions(struct buffer *buffer, uint (**hash_functions)(const char *key),  char **titles, int n, struct buffer *buffer_test, int epoch);
 
 
-void create_graph(FILE *gnuplotPipe, hash_table *hash_table, double percent_outlier, const char *title, const char *path, int x_size, int y_size);
+void create_graph(FILE *gnuplotPipe, hash_table *hash_table, const char *title, const char *path, int x_size, int y_size);
 
 FILE * multiplot(const char *title, int x, int y);
 

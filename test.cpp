@@ -22,7 +22,7 @@ void test_functions(struct buffer *buffer, uint (**hash_functions)(const char *k
 
         FILE *gnuplotPipe = popen("gnuplot -persistent", "w");
 
-        create_graph(gnuplotPipe, hash_table, PERCENT_OUTLIER, titles[i], local_path, x_size, y_size);
+        create_graph(gnuplotPipe, hash_table, titles[i], local_path, x_size, y_size);
         
         run_test(hash_table, buffer_test, titles[i], epoch);
 
@@ -48,7 +48,7 @@ void test_functions(struct buffer *buffer, uint (**hash_functions)(const char *k
 
         FILE *gnuplotPipe = popen("gnuplot -persistent", "w");
 
-        create_graph(gnuplotPipe, hash_table, PERCENT_OUTLIER, titles[i], local_path, x_size, y_size);
+        create_graph(gnuplotPipe, hash_table, titles[i], local_path, x_size, y_size);
         
         hash_table_destroy(hash_table);
 
@@ -84,7 +84,9 @@ void run_test(hash_table *hash_table, struct buffer *buffer, char *title, int ep
         }
     }
 
-    printf("Hash function: %s\nTime : %lu\n\n", title, rdtsc() - i);
+    printf("Hash function: %s\nTime : %3lu\n\n", title, rdtsc() - i);
 
     return;
 }
+//142949718864
+//129523917012
