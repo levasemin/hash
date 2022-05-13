@@ -213,7 +213,7 @@ int strcmp_intr(const char *str1, const char *str2)
 Hash function: HashCrc32Intr
 Time : 1337067284
 ```
-858 млн тиков, что быстрее на 6.4 %
+что быстрее на 6.4 %
 
 ### Альтернативные способы оптимизации
 
