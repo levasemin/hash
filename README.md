@@ -275,6 +275,37 @@ Hash function: HashRolling
 Time : 2645 млн тиков
 ```
 
+```
+uint hash_rolling_asm(const char *key)
+{
+    uint hash = 0;
+
+    __asm__  __volatile__ (
+        ".intel_syntax noprefix ;" \
+        "xor eax, eax ;"           \
+        "xor edx, edx ;"           \
+        "mov al, [%1];"            \
+        "next_symbol%=: "          \
+
+        "inc %1 ;"                 \
+        "mov dl, [%1] ;"           \
+        "cmp dl, 0 ;"              \
+        "je out%= ;"               \
+        "ror eax, 1 ;"             \
+        "xor eax, edx ;"           \
+
+        "jmp next_symbol%= ;"      \
+        "out%=: "                  \
+        "mov %0, eax ;"
+        ".att_syntax prefix ;"     \
+        :"=r"(hash)                \
+        :"r"(key)                  \
+        :"eax", "edx", "dl");
+
+    return hash;
+}
+```
+
 Результат функции с ассемблером
 
 ```
