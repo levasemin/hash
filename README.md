@@ -139,8 +139,46 @@ uint hash_crc32(const char *key)
  
  ## Оптимизация 
  
+ ##### 0 этап 
+ Запустим тест хеш таблицы без оптимизаций, посмотрим на профайлер.
+ 
+ ![](https://github.com/levasemin/hash/blob/master/images/stage_1.png)
+ 
+ Как видим, проблема в основном в `extern int strcmp (const char *__s1, const char *__s2)`.
+ Скорость составила:
+ 
+ ```
+ Hash function: HashCrc32
+ Time : 1582420990
+ ```
+ 
  ##### 1 этап
-  
+Заменена функция `extern int strcmp (const char *__s1, const char *__s2)` на `int strcmp_intr(const char *string1, const char *string2)`, использующая intrinsic функции 
+
+```
+int strcmp_intr(const char *str1, const char *str2)
+{
+    __m256 arr1 = _mm256_load_ps((float *)str1);
+    __m256 arr2 = _mm256_load_ps((float *)str2);
+    
+    __m256 cmp_res = _mm256_cmp_ps(arr1, arr2, _CMP_NEQ_OQ);
+    
+    int res = _mm256_movemask_ps(cmp_res);
+
+    return res;
+}
+```
+![](https://github.com/levasemin/hash/blob/master/images/stage_2.png)
+
+Скорость составила
+```
+Hash function: HashCrc32
+Time : 1421138226
+```
+что быстрее на 10.2 %
+
+ ##### 2 этап
+ 
 Заменена функция `uint hash_crc32(const char *key)` на `uint hash_crc32_intr(const char *key)`, использующая intrinsic функцию `unsigned __int64 _mm_crc32_u64 (unsigned __int64 crc, unsigned __int64 v)`. Посмотрим, как на это отреагирует профайлер и насколько ускорится программа.
 
 ```
@@ -164,55 +202,18 @@ uint hash_crc32_intr(const char *key)
 }
 ```
 
-![](https://github.com/levasemin/hash/blob/master/images/stage_2.png)
+![](https://github.com/levasemin/hash/blob/master/images/stage_3.png)
 
 После замены хеш функции главной проблемой стала функция `struct list *list_find(struct list *head, const char *elem)`. Если посмотреть на распределение нагрузки внутри неё, можно увидеть, что главная проблема `extern int strcmp (const char *__s1, const char *__s2)`, несмотря на то, что оставшиеся 52% занимает сравнение указателей с NULL. Ускорить сравнение указателей мы не можем, оно нагружает настолько сильно только из-за количества раз и факта обращения.
 
 Скорость составила 
 ```
-Hash function: HashCrc32
-Time : 1582420990
-```
-
-##### 2 этап
-Попробуем запустить профайлер на тесте неоптимизированной таблицы, используя хеш crc32.
-
- ![](https://github.com/levasemin/hash/blob/master/images/stage_1.png)
- 
- Как видим, самым нагруженным местом является функция `uint hash_crc32(const char *key)`, которая вычисляет хеш,что в принципе логично, ведь она вызывается
- каждый раз, когда мы начинаем искать какое-то слово, чтобы узнать место списка в хеш таблице. Попробуем её оптимизировать. 
-
-Скорость составила
-```
-Hash function: HashCrc32
-Time : 1421138226
-```
-Прирост на 10.2%
-
-##### 3 этап
-Заменена функция `extern int strcmp (const char *__s1, const char *__s2)` на `int strcmp_intr(const char *string1, const char *string2)`, использующая intrinsic функции 
-
-```
-int strcmp_intr(const char *str1, const char *str2)
-{
-    __m256 arr1 = _mm256_load_ps((float *)str1);
-    __m256 arr2 = _mm256_load_ps((float *)str2);
-    
-    __m256 cmp_res = _mm256_cmp_ps(arr1, arr2, _CMP_NEQ_OQ);
-    
-    int res = _mm256_movemask_ps(cmp_res);
-
-    return res;
-}
-```
-![](https://github.com/levasemin/hash/blob/master/images/stage_3.png)
-
-Скорость составила
-```
 Hash function: HashCrc32Intr
 Time : 1337067284
 ```
-что быстрее на 6.4 %
+
+Прирост составил 6.2%.
+
 
 ### Альтернативные способы оптимизации
 
