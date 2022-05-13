@@ -272,13 +272,6 @@ Time : 6312632476
 ### Inline ассемблер
 Попробуем другой вариант использования ассемблера - вставка в код, изменим функцию `uint hash_rolling(const char *key)` на `uint hash_rolling_asm(const char *key)`.
 
-Результат функции на С
-
-```
-Hash function: HashRolling
-Time : 2303597400
-```
-
 ```
 uint hash_rolling_asm(const char *key)
 {
@@ -308,6 +301,12 @@ uint hash_rolling_asm(const char *key)
 
     return hash;
 }
+```
+Результат функции на С
+
+```
+Hash function: HashRolling
+Time : 2303597400
 ```
 
 Результат функции с ассемблером
